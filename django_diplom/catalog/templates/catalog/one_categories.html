@@ -1,0 +1,31 @@
+{% extends 'catalog/catalog_base.html' %}
+{% block title %} {{ categories.name }} {% endblock %}
+{% block content %}
+ <div>
+ {% if categories %}
+  <h3> {{ categories.description }}</h3>
+    {% for pr in categories.product_set.all %}
+        <ul>
+            <li> <a href="{% url 'catalog:prod_view' pr.slug %}">{{pr.name}}</a></li>
+
+
+        </ul>
+        {% endfor %}
+     {% for add in categories.addon_set.all %}
+         <ul>
+                        <li> <a href="{% url 'catalog:addon_view' add.slug %}">{{add.name}}</a></li>
+         </ul>
+            {% endfor %}
+     {% endif %}
+{% comment %} {% if addons %}
+    {% for add in addons %}
+        <ul>
+            <li> <a href="{% url 'catalog:addon_view' add.slug %}">{{add.name}}</a></li>
+
+        </ul>
+        {% endfor %}
+
+{% endif %}{% endcomment %}
+
+    </div>
+{% endblock %}

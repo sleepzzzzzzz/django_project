@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица</title>
+</head>
+<body>
+
+
+<table>
+      <tr>
+          <th>id</th>
+          <th>Наименование</th>
+          <th>описание</th>
+      </tr>
+
+{% for pr in products %}
+    <tr>
+        <td>{{pr.id}}</td>
+        <td>{{ pr.name }}</td>
+    <td>{{ pr.description }}</td>
+    </tr>
+{% endfor %}
+</table>
+</body>
+</html>

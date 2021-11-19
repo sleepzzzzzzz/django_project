@@ -1,0 +1,20 @@
+{% extends 'catalog/catalog_base.html' %}
+{% block title %} {{ products.name}} {% endblock %}
+{% block content %}
+<div>
+
+
+    <div>
+          <h3>{{addon.name }}</h3>
+    <h5>{{ addon.description }}</h5>
+    </div>
+
+     {% if is_addon_in_cart %}
+<a class="button" href="{% url 'cart:cart'  %}">перейти в корзину</a>
+     {% else %}
+
+
+<a class="button" href="{% url 'cart:add_to_cart_addon' addon.slug %}">add to cart</a>
+{% endif %}
+</div>
+{% endblock %}
