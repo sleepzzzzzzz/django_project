@@ -1,0 +1,38 @@
+{% extends 'authentication/auth_base.html' %}
+
+{% load widget_tweaks %}
+{% block title %} Регистрация {% endblock %}
+{% block content %}
+    <div>
+        {% if user.is_authenticated %}
+            {% if user.is_authenticated %}
+                {% if user.username %}
+
+                    <h3>username:{{ user.username }}</h3>
+                {% endif %}
+                <h3> email: {{ user.email }}</h3>
+
+                {% if user.avatar %}
+                    {{ user.username }}
+
+                    <img src="{{ user.avatar.url }}" height="25" width="25">
+                {% endif %}
+                <a href="{% url 'authentication:logout' %}">Выйти</a>
+
+            {% else %}
+
+                <a href="{% url 'authentication:login' %}">Войти</a>
+
+                </div>
+            {% endif %}
+            {% else %}
+            <div>
+            Вы еще не вошли в аккаунт,хотите войти?
+            <a href="{% url 'authentication:login' %}">Войти</a>
+            </div>
+            <a href="{% url 'catalog:home' %}">Вернуться на домашнюю страницу</a>
+
+
+
+        {% endif %}
+{% endblock %}

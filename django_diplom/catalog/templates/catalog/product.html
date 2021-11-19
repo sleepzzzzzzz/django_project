@@ -1,0 +1,69 @@
+{% extends 'catalog/catalog_base.html' %}
+{% block title %} {{ products.name}} {% endblock %}
+{% block content %}
+<div>
+    <h3>{{ products.name }}</h3>
+    <h5>{{ products.description }}</h5>
+{% comment %}<form method="get" action="{% url 'cart:add_to_cart' %}">
+    <input type="number" name="quantity">
+    <button
+            type="submit"
+            class="button"
+            href="{% url 'cart:add_to_cart' product.id %}"
+    >Добавить в корзину</button>
+
+
+</form>{% endcomment %}
+ <div>
+     {% if is_product_in_cart %}
+<a class="button" href="{% url 'cart:cart'  %}">перейти в корзину</a>
+     {% else %}
+
+<a class="button" href="{% url 'cart:add_to_cart' products.slug %}">add to cart</a>
+     {% endif %}
+ </div>
+
+    {% if products.productspecificationvalue_set.all %}
+        <h4>Характеристики</h4>
+        <table>
+        <tr>
+            <th>Характеристика</th>
+            <th>Значение</th>
+        </tr>
+        {% for specification_value in products.productspecificationvalue_set.all %}
+          <tr>
+             <td> {{ specification_value.specification.name }}</td>
+           <td>{{ specification_value.value }}  </td>
+          </tr>
+        {% endfor %}
+
+
+        </table>
+    {% endif %}
+
+</div>
+
+    {% for product_image in products.productimage_set.all %}
+<div>
+    <img class="product-image" src="{{ product_image.image.url }}" alt="{{ products.name }}">
+
+</div>
+    {% endfor %}
+{% if addons_mapper %}
+<h3>купи дополнительно:</h3>
+
+{% for cat_name ,addons in addons_mapper.items %}
+<div>
+<h5>{{ cat_name }}</h5>
+    {% for addon in addons %}
+
+    <ul>
+        <li> <a href="{% url 'catalog:addon_view' addon.slug %}">{{addon.name}}</a></li>
+
+
+        </ul>
+</div>
+    {% endfor %}
+{% endfor %}
+{% endif %}
+{% endblock %}

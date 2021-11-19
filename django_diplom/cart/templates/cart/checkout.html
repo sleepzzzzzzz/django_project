@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+({% load static %}
+{% block title %}Checkout){% endblock %}
+{% block content %}
+
+    <h3>ОФОРМЛЕНИЕ ЗАКАЗА</h3>
+{%for product in cart_product  %}
+    <h5>{{ product.product }}</h5>
+
+    <h3></h3>
+    <h3>{{ product.product.quantity }}</h3>
+    {% for pr in product.product.productimage_set.all %}
+            <img class="product-image" src="{{ pr.image.url }}" alt="{{ product.product.name }}">
+
+        {% endfor %}
+    <h3>Сумма:{{ product.product_price }}</h3>
+
+
+    {% endfor %}
+    {%for addon in cart_addon  %}
+    <h5>{{ addon.addon }}</h5>
+
+
+    <h3>{{ addon.addon_price }}</h3>
+    <h3>{{ addon.addon.quantity }}</h3>
+
+    {% endfor %}
+    {% if total %}
+    <h3>К оплате : {{ total }}</h3>
+    {% endif %}
+    {% csrf_token %}
+    <form action="{%  url 'cart:make_order' %}" method="post">
+    {% csrf_token %}
+
+    {%  for field in form %}
+          <div class="form-row">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{field }}
+          {% if errors%}
+              {% for error in errors %}
+                  <p class="error-message">{{ error }}</p>
+              {% endfor %}
+          {% endif %}
+          </div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+               <p class="error-message">{{ error }}</p>
+          {% endfor %}
+      {% endif %}
+    <input type="submit" value="Оформить заказ">
+    </form>
+{% endblock%}
+

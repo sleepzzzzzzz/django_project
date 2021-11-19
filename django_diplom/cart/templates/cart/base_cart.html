@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+    {% block styles  %}
+       {% load static %}
+       {{ block.super }}
+       <link rel="stylesheet" href="{% static 'cart/styles.css' %}">
+    {% endblock %}

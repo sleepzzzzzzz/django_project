@@ -1,0 +1,42 @@
+{% extends 'authentication/auth_base.html' %}
+
+{%  load widget_tweaks %}
+{% block title %} Регистрация {% endblock %}
+{% block content %}
+      <form
+              method="post"
+              action="{% url 'authentication:reg' %}"
+              enctype="multipart/form-data"
+
+      >
+          {% csrf_token %}
+
+      {%  for field in form %}
+          <div class="form-row">
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {{field }}
+          {% if errors%}
+              {% for error in errors %}
+                  <p class="error-message">{{ error }}</p>
+              {% endfor %}
+          {% endif %}
+          </div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+               <p class="error-message">{{ error }}</p>
+          {% endfor %}
+      {% endif %}
+{% comment %}
+       {{ form.as_p }}
+{% endcomment %}
+       <button type="submit">Зарегистрироваться</button>
+
+
+      <p>Есть аккаунт?</p>
+      <a href="{% url 'authentication:login' %}">Войти</a>
+
+      </form>
+
+{% endblock %}

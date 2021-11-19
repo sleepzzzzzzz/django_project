@@ -1,0 +1,15 @@
+{% extends 'catalog/catalog_base.html' %}
+{% block title %} Детское {% endblock %}
+{% block content %}
+    <div>
+
+    {% for c in categories %}
+
+        <ul>
+            <li> <a href="{% url 'catalog:one_cat' c.slug %}">{{c.name}} ({{ c.total  }})  </a></li>
+
+        </ul>
+
+        {% endfor %}
+    </div>
+{% endblock %}

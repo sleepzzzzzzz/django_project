@@ -1,0 +1,54 @@
+{% extends 'cart/base_cart.html' %}
+{% block title %}Корзина{% endblock %}
+{% block content %}
+
+<h5>Корзина</h5>
+{%for product in cart_product  %}
+    <h5>{{ product.product }} </h5>
+
+    <h3></h3>
+    <h3>{{ product.product.quantity }}</h3>
+    {% for pr in product.product.productimage_set.all %}
+            <img class="product-image" src="{{ pr.image.url }}" alt="{{ product.product.name }}">
+
+        {% endfor %}
+    <h3>Сумма:{{ product.product_price }}</h3>
+    <form method="post" action="{% url 'cart:change_quantity' product.product.slug %}">
+      {% csrf_token %}
+    <input type ="number" min="1" max="10" name="quantity">
+    <button
+        type="submit"
+        class="button"
+
+        >Apply</button>
+    </form>
+
+    <a href="{% url 'cart:remove_product'  product.product.slug %}">Delete</a>
+
+    {% endfor %}
+    {%for addon in cart_addon  %}
+    <h5>{{ addon.addon }}</h5>
+
+
+    <h3>{{ addon.addon_price }}</h3>
+    <h3>{{ addon.addon.quantity }}</h3>
+
+
+    <form method="post" action="{% url 'cart:change_quantity_addon' addon.addon.slug %}">
+      {% csrf_token %}
+    <input type ="number" min="1" max="10" name="quantity">
+    <button
+        type="submit"
+        class="button"
+
+        >Apply</button>
+    </form>
+
+    <a href="{% url 'cart:remove_addon'  addon.addon.slug %}">Delete</a>
+
+    {% endfor %}
+    {% if total %}
+    <h3>Итого: {{ total }}</h3>
+        <h3><a href="{% url 'cart:checkout' %}"><button>перейти к оформлению</button> </a> </h3>
+    {% endif %}
+{% endblock%}
